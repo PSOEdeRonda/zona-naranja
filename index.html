@@ -20,8 +20,8 @@
 <body class="font-sans text-gray-800 bg-gray-50">
 
     <!-- HERO SECTION: Postura PSOE (Rojo) -->
-    <!-- Reducido el padding-top (pt-8 md:pt-12) para quitar espacio arriba -->
-    <header class="bg-psoe text-white pt-8 pb-16 md:pt-12 md:pb-24 relative overflow-hidden">
+    <!-- Reducido aún más el padding-top (pt-3 md:pt-7) para quitar 20px de aire arriba -->
+    <header class="bg-psoe text-white pt-3 pb-16 md:pt-7 md:pb-24 relative overflow-hidden">
         <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         <div class="container mx-auto px-4 text-center relative z-10">
             
@@ -153,10 +153,13 @@
             </div>
             
             <div class="mt-12">
-                <button onclick="copyLink()" class="bg-psoe text-white text-lg font-bold py-4 px-10 rounded-full shadow-lg hover:bg-red-700 transition transform hover:scale-105 animate-pulse">
+                <!-- Se ha añadido el ID para el feedback específico de este botón -->
+                <button onclick="copyLink('copy-feedback-bottom')" class="bg-psoe text-white text-lg font-bold py-4 px-10 rounded-full shadow-lg hover:bg-red-700 transition transform hover:scale-105 animate-pulse">
                     ¡Ayúdanos a difundirlo!
                 </button>
                 <p class="mt-2 text-sm text-gray-500">Pulsa para copiar el enlace y enviarlo por WhatsApp</p>
+                <!-- Nuevo mensaje de feedback oculto para la sección inferior -->
+                <p id="copy-feedback-bottom" class="mt-1 text-sm font-bold text-psoe opacity-0 transition-opacity duration-300">¡Enlace copiado correctamente!</p>
             </div>
         </div>
     </section>
@@ -174,25 +177,27 @@
 
     <!-- SCRIPT COPIAR ENLACE -->
     <script>
-        function copyLink() {
+        function copyLink(elementId) {
             // Crea un elemento temporal de input
             const dummy = document.createElement('input');
-            const text = window.location.href;
+            const text = "https://psoederonda.github.io/zona-naranja/";
             document.body.appendChild(dummy);
             dummy.value = text;
             dummy.select();
             document.execCommand('copy');
             document.body.removeChild(dummy);
 
-            // Feedback visual
-            const feedback = document.getElementById('copy-feedback');
-            feedback.style.opacity = '1';
-            setTimeout(() => {
-                feedback.style.opacity = '0';
-            }, 2000);
+            // Feedback visual dinámico
+            // Si no se especifica ID (botón del menú), usa el de la cabecera por defecto
+            const feedbackId = elementId || 'copy-feedback';
+            const feedback = document.getElementById(feedbackId);
             
-            // Opcional: Alerta simple si prefieres
-            // alert("Enlace copiado al portapapeles. ¡Compártelo!");
+            if (feedback) {
+                feedback.style.opacity = '1';
+                setTimeout(() => {
+                    feedback.style.opacity = '0';
+                }, 2000);
+            }
         }
     </script>
 </body>
